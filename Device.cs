@@ -14,7 +14,26 @@ public abstract class Device
     public string Name { get; }
     public int YearInUse { get; }
     public decimal PurchasePrice { get; }
-    public DeviceStatus Status { get; set; }
+   
+private DeviceStatus _status;
+
+public DeviceStatus Status
+{
+    get => _status;
+
+    set
+    {
+        if (!Enum.IsDefined(typeof(DeviceStatus), value))
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(value),
+                "Trạng thái thiết bị không hợp lệ.");
+        }
+
+        _status = value;
+    }
+}
+
 
     // Tính số năm sử dụng dựa trên năm hiện tại.
     public int YearsInUse => DateTime.Now.Year - YearInUse;

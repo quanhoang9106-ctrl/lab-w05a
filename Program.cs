@@ -345,5 +345,20 @@ public class Program
 
         Console.WriteLine();
         Console.WriteLine("===== KET THUC KIEM THU =====");
+        
+Console.WriteLine("===== KIEM THU DEVICE STATUS =====");
+
+try
+{
+    computer1.Status = (DeviceStatus)999;
+
+    Console.WriteLine("FAIL: Chap nhan trang thai khong hop le.");
+}
+catch (ArgumentOutOfRangeException ex)
+{
+    Console.WriteLine(
+        $"PASS: Da chan trang thai khong hop le. {ex.ParamName}");
+}
+
     }
 }
