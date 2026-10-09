@@ -7,7 +7,7 @@
 using System;
 
 // Lớp Computer kế thừa từ Device.
-public class Computer : Device
+public class Computer : Device, INetworkable
 {
     // Các thuộc tính riêng của máy tính.
     public int RamGB { get; }
@@ -73,4 +73,36 @@ public class Computer : Device
                $" | CPU: {Processor}" +
                $" | GPU rời: {(HasDedicatedGpu ? "Có" : "Không")}";
     }
+    
+// Dia chi IP dang su dung
+public string IpAddress { get; private set; } = string.Empty;
+
+// Kiem tra trang thai ket noi
+public bool IsConnected =>
+    !string.IsNullOrEmpty(IpAddress);
+
+// Ket noi mang
+public void Connect(string ipAddress)
+{
+    if (string.IsNullOrWhiteSpace(ipAddress))
+    {
+        throw new ArgumentException(
+            "Dia chi IP khong duoc rong.");
+    }
+
+    if (IsConnected)
+    {
+        throw new InvalidOperationException(
+            "Thiet bi da ket noi mang.");
+    }
+
+    IpAddress = ipAddress.Trim();
+}
+
+// Ngat ket noi mang
+public void Disconnect()
+{
+    IpAddress = string.Empty;
+}
+
 }

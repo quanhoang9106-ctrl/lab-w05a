@@ -202,5 +202,86 @@ public class Program
 
         Console.WriteLine();
         Console.WriteLine("===== KET THUC KIEM THU =====");
+        
+// =====================================
+// PHAN 7: KIEM THU INETWORKABLE
+// =====================================
+
+Console.WriteLine();
+Console.WriteLine("===== KIEM THU KET NOI MANG =====");
+
+// Tao mot may in co ho tro mang
+NetworkPrinter networkPrinter = new NetworkPrinter(
+    "NP01",
+    "Brother WiFi",
+    currentYear - 1,
+    9000000m,
+    DeviceStatus.Active,
+    PrinterType.Laser,
+    20000,
+    false
+);
+
+// Mang interface chua cac thiet bi co mang
+INetworkable[] networkDevices =
+{
+    computer1,
+    computer2,
+    networkPrinter
+};
+
+string[] ipAddresses =
+{
+    "192.168.1.10",
+    "192.168.1.11",
+    "192.168.1.20"
+};
+
+// Ket noi va hien thi trang thai
+for (int i = 0; i < networkDevices.Length; i++)
+{
+    networkDevices[i].Connect(ipAddresses[i]);
+
+    Console.WriteLine(
+        $"{networkDevices[i].GetType().Name}" +
+        $" | Ket noi: {networkDevices[i].IsConnected}" +
+        $" | IP: {networkDevices[i].IpAddress}");
+}
+
+// Kiem thu khong cho phep ket noi lai
+Console.WriteLine();
+Console.WriteLine("===== KIEM THU KET NOI TRUNG =====");
+
+try
+{
+    computer1.Connect("192.168.1.99");
+}
+catch (InvalidOperationException ex)
+{
+    Console.WriteLine($"Da chan ket noi trung: {ex.Message}");
+}
+
+// Kiem thu ngat ket noi
+Console.WriteLine();
+Console.WriteLine("===== KIEM THU NGAT KET NOI =====");
+
+networkPrinter.Disconnect();
+
+Console.WriteLine(
+    $"Trang thai: {networkPrinter.IsConnected}");
+
+Console.WriteLine(
+    $"IP sau khi ngat: '{networkPrinter.IpAddress}'");
+
+// Kiem thu khong chap nhan IP rong
+try
+{
+    networkPrinter.Connect("   ");
+}
+catch (ArgumentException ex)
+{
+    Console.WriteLine($"Da chan IP rong: {ex.Message}");
+}
+
     }
 }
